@@ -56,6 +56,13 @@ def send_forecast(message):
 def command_weather(message):
     bot.send_message(message, chat_id, parse)
 
+@bot.message_handler(commands=['cheer_up'])
+def command_start(message):
+    start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    start_markup.row('/food', '/walk')
+    start_markup.row('/fun', '/knowledge')
+    start_markup.row('/idk')
+    bot.send_message(message.chat.id, "✨ Choose the category that will make you happy!\n")
 
 
 while True:
