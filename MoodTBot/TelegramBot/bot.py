@@ -29,6 +29,12 @@ def command_help(message):
 									  "📝 /add_list - you can create your own list with the places you like\n"
 									  "☁ /weather - current forecast\n"
 									  "🚦 /traffic - current traffic jam in Tomsk\n")    
+                                      
+                                      
+@bot.message_handler(commands=['weather'])
+def command_weather(message):
+	sent = bot.send_message(message.chat.id, "🗺 Enter the City or Country\n🔍 In such format:  Toronto  or  japan")
+	bot.register_next_step_handler(sent, send_forecast)
     
 while True:
 	try:
