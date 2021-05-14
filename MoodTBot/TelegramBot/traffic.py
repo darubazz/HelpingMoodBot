@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://yandex.ru/"
+URL = "https://yandex.ru/maps/67/tomsk/?l=trf%2Ctrfe&ll=84.988423%2C56.533638&z=10.89"
+
 HEADERS = {
     'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
     'accept': "*/*"}
@@ -14,16 +15,11 @@ def get_html(url, params=None):
 
 def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
-    items = soup.find_all('div', class_='film-title')
-    traffic = []
-    for item in items:
-        traffic.append(
-            {
-                'title': item.find('a').get_text(strip=True),
-                'rating': parse_rating(item.find('a').get_text(strip=True))
-            }
-        )
-    return films
+
+    message = soup.find('div', class_='traffic-panel-view__dropdown-title')
+    #traffic-panel-view__dropdown-title
+    message.get_text()
+    return message
 
 
 def parse():
