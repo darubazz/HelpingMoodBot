@@ -70,18 +70,26 @@ def command_start(message):
     markup_inline.add(item_food, item_walk)
     markup_inline.add(item_fun, item_knowledge)
     markup_inline.add(item_idk)
-    #markup_inline.row('/food', '/walk')
-    #markup_inline.row('/fun', '/knowledge')
-    #markup_inline.row('/idk')
+    # markup_inline.row('/food', '/walk')
+    # markup_inline.row('/fun', '/knowledge')
+    # markup_inline.row('/idk')
     bot.send_message(message.chat.id, "✨ Choose the category that will make you happy!\n",
                      reply_markup=markup_inline)
 
 
-# @bot.callback_query_handlers(func = lambda call: True)
-# def answer(call):
-#    if call.data == 'food':
-
-#    elif call.data == 'walk':
+@bot.callback_query_handler(func=lambda call: True)
+def answer(call):
+    if call.data == 'food':
+        bot.send_message(call.message.chat.id, "Nice choice! Bon Appetit")
+    elif call.data == 'walk':
+        bot.send_message(call.message.chat.id, "Prepare your feet, it will be a long road")
+    elif call.data == 'fun':
+        bot.send_message(call.message.chat.id, "Have a good time!")
+    elif call.data == 'knowledge':
+        bot.send_message(call.message.chat.id, "Today we will learn a lot")
+    elif call.data == 'idk':
+        bot.send_message(call.message.chat.id, "Don't give up! I will help you")
+        pass
 
 
 while True:
