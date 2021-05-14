@@ -6,8 +6,7 @@ from telebot import types
 from pyowm.exceptions import api_response_error
 from config import BOT_TOKEN, OWM_TOKEN
 from weather import get_forecast
-
-# from traffic import parse
+from traffic import parse
 
 bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 owm = pyowm.OWM(OWM_TOKEN)
