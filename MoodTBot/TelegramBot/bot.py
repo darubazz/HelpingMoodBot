@@ -2,10 +2,12 @@ import telebot
 import pyowm
 import pyowm.exceptions
 import time as tm
+from telebot import types
 from pyowm.exceptions import api_response_error
 from config import BOT_TOKEN, OWM_TOKEN
 from weather import get_forecast
-from traffic import parse
+
+# from traffic import parse
 
 bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 owm = pyowm.OWM(OWM_TOKEN)
@@ -56,13 +58,30 @@ def send_forecast(message):
 def command_weather(message):
     bot.send_message(message, chat_id, parse)
 
+
 @bot.message_handler(commands=['cheer_up'])
 def command_start(message):
-    start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    start_markup.row('/food', '/walk')
-    start_markup.row('/fun', '/knowledge')
-    start_markup.row('/idk')
-    bot.send_message(message.chat.id, "✨ Choose the category that will make you happy!\n")
+    markup_inline = telebot.types.InlineKeyboardMarkup()  # resize_keyboard=True, one_time_keyboard=False
+    item_food = telebot.types.InlineKeyboardButton(text='🥪 food', callback_data='food')
+    item_walk = telebot.types.InlineKeyboardButton(text='🌿 walk', callback_data='walk')
+    item_fun = telebot.types.InlineKeyboardButton(text='🎉 fun', callback_data='fun')
+    item_knowledge = telebot.types.InlineKeyboardButton(text='📚 knowledge', callback_data='knowledge')
+    item_idk = telebot.types.InlineKeyboardButton(text='😐 idk', callback_data='idk')
+    markup_inline.add(item_food, item_walk)
+    markup_inline.add(item_fun, item_knowledge)
+    markup_inline.add(item_idk)
+    #markup_inline.row('/food', '/walk')
+    #markup_inline.row('/fun', '/knowledge')
+    #markup_inline.row('/idk')
+    bot.send_message(message.chat.id, "✨ Choose the category that will make you happy!\n",
+                     reply_markup=markup_inline)
+
+
+# @bot.callback_query_handlers(func = lambda call: True)
+# def answer(call):
+#    if call.data == 'food':
+
+#    elif call.data == 'walk':
 
 
 while True:
