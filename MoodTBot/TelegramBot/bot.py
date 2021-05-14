@@ -36,6 +36,14 @@ def command_weather(message):
 	sent = bot.send_message(message.chat.id, "🗺 Enter the City or Country\n🔍 In such format:  Toronto  or  japan")
 	bot.register_next_step_handler(sent, send_forecast)
     
+def send_forecast(message):
+	try:
+		get_forecast(message.text)
+	except pyowm.exceptions.api_response_error.NotFoundError:
+		bot.send_message(message.chat.id, "❌  Wrong place, check mistakes and try again!")
+	forecast = get_forecast(message.text)
+	bot.send_message(message.chat.id, forecast)   
+    
 while True:
 	try:
 		bot.infinity_polling(True)
