@@ -17,6 +17,19 @@ def command_start(message):
 	bot.send_message(message.chat.id, "👾 The bot has started!\n⚙ Enter /help to see bot's function's")
 	bot.send_message(message.from_user.id, "⌨️ The Keyboard is added!\n⌨️ /hide To remove kb ", reply_markup=start_markup)
     
+@bot.message_handler(commands=['hide'])
+def command_hide(message):
+	hide_markup = telebot.types.ReplyKeyboardRemove()
+	bot.send_message(message.chat.id, "⌨💤...", reply_markup=hide_markup)
+    
+@bot.message_handler(commands=['help'])
+def command_help(message):
+	bot.send_message(message.chat.id, "👾 /start - display the keyboard\n"
+									  "🌈 /cheer_up - list of places by category\n"
+									  "📝 /add_list - you can create your own list with the places you like\n"
+									  "☁ /weather - current forecast\n"
+									  "🚦 /traffic - current traffic jam in Tomsk\n")    
+    
 while True:
 	try:
 		bot.infinity_polling(True)
