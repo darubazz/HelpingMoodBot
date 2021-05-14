@@ -54,7 +54,7 @@ def send_forecast(message):
 
 @bot.message_handler(commands=['traffic'])
 def command_weather(message):
-    bot.send_message(message, chat_id, parse)
+    bot.send_message(message, chat_id, parse())
 
 
 
