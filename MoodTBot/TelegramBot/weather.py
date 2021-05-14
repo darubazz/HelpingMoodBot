@@ -1,9 +1,6 @@
 import pyowm
 from config import OWM_TOKEN
 
-<<<<<<< Updated upstream
-owm = pyowm.OWM(OWM_TOKEN)
-=======
 owm = pyowm.OWM(OWM_TOKEN)
 
 def get_forecast(place):
@@ -15,4 +12,4 @@ def get_forecast(place):
 	humidity = weather.get_humidity()
 	forecast = f"🏙 In {place} is currently {weather.get_detailed_status()} \n🌡️ {temperature} °C \n💨 {wind} m/s \n🌫️ {clouds} % \n💦 {humidity} %"
 	return forecast
->>>>>>> Stashed changes
+
