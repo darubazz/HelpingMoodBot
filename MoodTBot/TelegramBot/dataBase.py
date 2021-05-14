@@ -2,39 +2,57 @@ import sqlite3
 
 __connection = None
 
+def ensure_connection(func):
+    def inner(*args, **kwargs):
+        with sqlite3.connect('placelist.db') as conn:
+            res = func(*args, conn=conn, **kwargs)
+        return 0  # res
+    return inner()
 
-def get_connection():
-    global __connection
-    if __connection is None:
-        __connection = sqlite3.connect('placelist.db')
-    return __connection
 
+def ensure_connection_init_db(func):
+    def inner(*args, **kwargs):
+        with sqlite3.connect('placelist.db') as conn:
+            res = func(*args, conn=conn, **kwargs)
+        return 0 #res
+    return inner()
 
-def init_db(force: bool = False):
-    conn = get_connection()
-    c = conn.cursor()
+def ensure_connection_add_place(func):
+    def inner(*args, **kwargs):
+        with sqlite3.connect('placelist.db') as conn:
+            res = func(*args, conn=conn, **kwargs)
+        return 0 #res
+    return inner()
 
+def ensure_connection_get_list(func):
+    def inner(*args, **kwargs):
+        with sqlite3.connect('filmlist.db') as conn:
+            res = func(*args, conn=conn, **kwargs)
+        return 0 #res
+    return inner()
+
+def init_db(conn, force: bool = False):
+    c = conn.commit()
     if force:
         c.execute('DROP TABLE IF EXISTS place')
-
     c.execute('''
     CREATE TABLE IF NOT EXISTS place (
        id           INTEGER PRIMARY KEY,
        category_id    INTEGER NOT NULL,
        name         TEXT NOT NULL,
-       rating       DOUBLE, 
-       address       TEXT NOT NULL, 
-       site_link       TEXT 
+       rating       TEXT,
+       address       TEXT NOT NULL,
+       link         TEXT  
     )
     ''')
     conn.commit()
 
 
-def add_place(category_id: int, name: str, rating):
+def add_place(category_id: int, name: str, rating, link : str):
     conn = get_connection()
     c = conn.cursor()
-    c.execute('INSERT INTO place (category_id, name, rating) VALUES (?, ?, ?)', (category_id, name, rating))
-    get_connection().commit()
+    c.execute('INSERT INTO place (category_id, name, rating, link) VALUES (?, ?, ?)', (category_id, name, rating, link))
+    conn.commit()
 
 
 def get_list_of_places(category_id: int):
